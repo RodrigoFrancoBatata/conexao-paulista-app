@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Alunos</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastrar Aluno</h1>
+    <form action="/adicionar_aluno" method="post">
+      <input type="text" name="nome" placeholder="Nome do aluno" required><br>
+      <input type="text" name="faixa" placeholder="Faixa (ex: Branca, Azul...)" required><br>
+      <input type="text" name="professor" placeholder="Professor" required><br>
+      <label>Graus:</label><br>
+      <label><input type="checkbox" name="graus" value="1"> Grau 1</label><br>
+      <label><input type="checkbox" name="graus" value="2"> Grau 2</label><br>
+      <label><input type="checkbox" name="graus" value="3"> Grau 3</label><br>
+      <label><input type="checkbox" name="graus" value="4"> Grau 4</label><br><br>
+      <button type="submit">Salvar</button>
+    </form>
+    <a href="/" class="back">Voltar</a>
+  </div>
+</body>
+</html>

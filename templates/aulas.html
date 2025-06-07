@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Aula</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Registrar Aula</h1>
+    <form action="/registrar_aula" method="post">
+      <input type="date" name="data" required><br>
+      <input type="text" name="tecnica" placeholder="Técnica da aula" required><br>
+      <label>Alunos presentes:</label><br>
+      {% for aluno in alunos %}
+        <label><input type="checkbox" name="presentes" value="{{ aluno['nome'] }}"> {{ aluno['nome'] }}</label><br>
+      {% endfor %}
+      <br>
+      <button type="submit">Salvar Aula</button>
+    </form>
+    <a href="/" class="back">Voltar</a>
+  </div>
+</body>
+</html>
