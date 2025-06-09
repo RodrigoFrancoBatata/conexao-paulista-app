@@ -20,7 +20,7 @@ class Aula(db.Model):
     tecnica = db.Column(db.String(120), nullable=False)
     presentes = db.Column(db.Text, nullable=False)
 
-@app.before_first_request
+app.before_first_request
 def create_tables():
     db.create_all()
 
