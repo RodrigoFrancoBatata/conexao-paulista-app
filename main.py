@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL").replace("postgres://", "postgresql://")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL") or 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -32,31 +32,9 @@ def index():
 def alunos():
     return render_template("alunos.html")
 
-@app.route("/adicionar_aluno", methods=["POST"])
-def adicionar_aluno():
-    nome = request.form["nome"]
-    faixa = request.form["faixa"]
-    professor = request.form["professor"]
-    graus = ",".join(request.form.getlist("graus"))
-    novo = Aluno(nome=nome, faixa=faixa, professor=professor, graus=graus)
-    db.session.add(novo)
-    db.session.commit()
-    return redirect("/alunos")
-
 @app.route("/aulas")
 def aulas():
-    alunos = Aluno.query.all()
-    return render_template("aulas.html", alunos=alunos)
-
-@app.route("/registrar_aula", methods=["POST"])
-def registrar_aula():
-    data = request.form["data"]
-    tecnica = request.form["tecnica"]
-    presentes = ",".join(request.form.getlist("presentes"))
-    nova = Aula(data=data, tecnica=tecnica, presentes=presentes)
-    db.session.add(nova)
-    db.session.commit()
-    return redirect("/aulas")
+    return render_template("aulas.html")
 
 @app.route("/calendario")
 def calendario():
@@ -66,5 +44,4 @@ def calendario():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
 
