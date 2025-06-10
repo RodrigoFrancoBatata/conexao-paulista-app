@@ -1,20 +1,90 @@
-<form action="/alunos" method="post">
-  <label for="nome">Nome:</label>
-  <input type="text" id="nome" name="nome" required><br>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar Aluno</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .faixa {
+      display: flex;
+      height: 30px;
+      margin: 6px 0;
+      border: 2px solid #000;
+      cursor: pointer;
+    }
+    .faixa input[type="radio"] {
+      display: none;
+    }
+    .faixa-celula {
+      flex: 1;
+    }
+    .faixa.selecionada {
+      outline: 3px solid orange;
+    }
+    .submit-btn {
+      background: darkorange;
+      color: white;
+      padding: 8px;
+      border: none;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="color: darkorange;">Cadastrar Aluno</h1>
+    <form action="/alunos" method="post">
+      <input type="text" name="nome" placeholder="Nome do aluno" required><br>
+      <input type="text" name="professor" placeholder="Professor responsável" required><br>
 
-  <label for="faixa">Faixa:</label>
-  <input type="text" id="faixa" name="faixa" required><br>
+      <label>Graus:</label>
+      <input type="checkbox" name="grau1">
+      <input type="checkbox" name="grau2">
+      <input type="checkbox" name="grau3">
+      <input type="checkbox" name="grau4"><br><br>
 
-  <label for="professor">Professor:</label>
-  <input type="text" id="professor" name="professor" required><br>
+      <h2 style="color: darkorange;">Faixa</h2>
 
-  <label>Graus:</label><br>
-  <label><input type="checkbox" name="grau1"> Grau 1</label><br>
-  <label><input type="checkbox" name="grau2"> Grau 2</label><br>
-  <label><input type="checkbox" name="grau3"> Grau 3</label><br>
-  <label><input type="checkbox" name="grau4"> Grau 4</label><br>
+      {% set cores = [
+        ('branca', ['white', 'black']),
+        ('amarela', ['yellow', 'black']),
+        ('laranja', ['orange', 'black']),
+        ('verde', ['mediumseagreen', 'black']),
+        ('azul', ['royalblue', 'black']),
+        ('roxa', ['purple', 'black']),
+        ('marrom', ['saddlebrown', 'black']),
+        ('preta', ['black', 'red'])
+      ] %}
 
-  <button type="submit">Salvar</button>
-</form>
+      {% for nome, cores_faixa in cores %}
+      <label class="faixa" onclick="selecionarFaixa('{{ nome }}')">
+        <input type="radio" name="faixa" value="{{ nome }}" required>
+        <div class="faixa-celula" style="background: {{ cores_faixa[0] }}"></div>
+        <div class="faixa-celula" style="background: {{ cores_faixa[1] }}"></div>
+      </label>
+      {% endfor %}
 
+      <br>
+      <button type="submit" class="submit-btn">Salvar</button>
+    </form>
+    <br>
+    <a href="/" class="back">Voltar</a>
+  </div>
 
+  <script>
+    function selecionarFaixa(faixa) {
+      const radios = document.querySelectorAll('input[name="faixa"]');
+      radios.forEach(radio => {
+        if (radio.value === faixa) {
+          radio.checked = true;
+          radio.parentElement.classList.add('selecionada');
+        } else {
+          radio.parentElement.classList.remove('selecionada');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
