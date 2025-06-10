@@ -5,85 +5,91 @@
   <title>Cadastrar Aluno</title>
   <link rel="stylesheet" href="/static/style.css">
   <style>
-    .faixa {
+    .grau-container {
       display: flex;
-      height: 30px;
-      margin: 6px 0;
-      border: 2px solid #000;
-      cursor: pointer;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
-    .faixa input[type="radio"] {
-      display: none;
+
+    .grau-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .faixa-celula {
-      flex: 1;
-    }
-    .faixa.selecionada {
-      outline: 3px solid orange;
-    }
-    .submit-btn {
-      background: darkorange;
-      color: white;
-      padding: 8px;
-      border: none;
-      width: 100%;
+
+    .grau-item label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
       font-weight: bold;
+    }
+
+    .grau-item input[type="date"] {
+      padding: 0.2rem;
+    }
+
+    .faixa {
+      width: 100%;
+      height: 30px;
+      border: 2px solid #000;
+      margin-bottom: 0.5rem;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 style="color: darkorange;">Cadastrar Aluno</h1>
+    <h1 style="color: darkorange; text-align: center;">Cadastrar Aluno</h1>
     <form action="/alunos" method="post">
       <input type="text" name="nome" placeholder="Nome do aluno" required><br>
       <input type="text" name="professor" placeholder="Professor responsável" required><br>
 
-      <label>Graus:</label>
-      <input type="checkbox" name="grau1">
-      <input type="checkbox" name="grau2">
-      <input type="checkbox" name="grau3">
-      <input type="checkbox" name="grau4"><br><br>
+      <label><strong>Graus:</strong></label>
+      <div class="grau-container">
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau1"> Grau 1</label>
+          <input type="date" name="data_grau1">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau2"> Grau 2</label>
+          <input type="date" name="data_grau2">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau3"> Grau 3</label>
+          <input type="date" name="data_grau3">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau4"> Grau 4</label>
+          <input type="date" name="data_grau4">
+        </div>
+      </div>
 
-      <h2 style="color: darkorange;">Faixa</h2>
+      <label><strong>Faixa:</strong></label><br>
+      <input type="hidden" name="faixa" id="faixaSelecionada" required>
+      <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('verde')" class="faixa" style="background: linear-gradient(to right, mediumseagreen 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('azul')" class="faixa" style="background: linear-gradient(to right, royalblue 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('roxa')" class="faixa" style="background: linear-gradient(to right, purple 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('marrom')" class="faixa" style="background: linear-gradient(to right, saddlebrown 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('preta')" class="faixa" style="background: linear-gradient(to right, black 70%, red 30%)"></div>
 
-      {% set cores = [
-        ('branca', ['white', 'black']),
-        ('amarela', ['yellow', 'black']),
-        ('laranja', ['orange', 'black']),
-        ('verde', ['mediumseagreen', 'black']),
-        ('azul', ['royalblue', 'black']),
-        ('roxa', ['purple', 'black']),
-        ('marrom', ['saddlebrown', 'black']),
-        ('preta', ['black', 'red'])
-      ] %}
-
-      {% for nome, cores_faixa in cores %}
-      <label class="faixa" onclick="selecionarFaixa('{{ nome }}')">
-        <input type="radio" name="faixa" value="{{ nome }}" required>
-        <div class="faixa-celula" style="background: {{ cores_faixa[0] }}"></div>
-        <div class="faixa-celula" style="background: {{ cores_faixa[1] }}"></div>
-      </label>
-      {% endfor %}
-
-      <br>
-      <button type="submit" class="submit-btn">Salvar</button>
+      <button type="submit">Salvar</button>
     </form>
-    <br>
-    <a href="/" class="back">Voltar</a>
+
+    <div style="margin-top: 1rem;">
+      <a href="/" class="back">Voltar</a>
+    </div>
   </div>
 
   <script>
     function selecionarFaixa(faixa) {
-      const radios = document.querySelectorAll('input[name="faixa"]');
-      radios.forEach(radio => {
-        if (radio.value === faixa) {
-          radio.checked = true;
-          radio.parentElement.classList.add('selecionada');
-        } else {
-          radio.parentElement.classList.remove('selecionada');
-        }
-      });
+      document.getElementById("faixaSelecionada").value = faixa;
+      const faixas = document.querySelectorAll(".faixa");
+      faixas.forEach(f => f.style.outline = "");
+      event.currentTarget.style.outline = "3px solid red";
     }
   </script>
 </body>
