@@ -1,16 +1,17 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL") or 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 class Aluno(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(120), nullable=False)
-    faixa = db.Column(db.String(50), nullable=False)
+    faixa = db.Column(db.String(20), nullable=False)
     professor = db.Column(db.String(120), nullable=False)
     graus = db.Column(db.String(10), default="")
 
@@ -44,4 +45,3 @@ def calendario():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
