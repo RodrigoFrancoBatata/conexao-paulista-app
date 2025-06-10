@@ -24,7 +24,7 @@ class Aula(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(20), nullable=False)
     tecnica = db.Column(db.String(120), nullable=False)
-    presentes = db.Column(db.Text, nullable=False)
+    presentes = db.Column(db.Text, nullable=False)  # Armazena nomes separados por vírgula
 
 # Rota principal
 @app.route("/")
@@ -42,10 +42,20 @@ def alunos():
         grau2 = 'grau2' in request.form
         grau3 = 'grau3' in request.form
         grau4 = 'grau4' in request.form
-        novo = Aluno(nome=nome, faixa=faixa, professor=professor, grau1=grau1, grau2=grau2, grau3=grau3, grau4=grau4)
+
+        novo = Aluno(
+            nome=nome,
+            faixa=faixa,
+            professor=professor,
+            grau1=grau1,
+            grau2=grau2,
+            grau3=grau3,
+            grau4=grau4
+        )
         db.session.add(novo)
         db.session.commit()
         return redirect(url_for("alunos"))
+
     lista = Aluno.query.all()
     return render_template("alunos.html", alunos=lista)
 
@@ -55,14 +65,16 @@ def aulas():
     if request.method == "POST":
         data = request.form["data"]
         tecnica = request.form["tecnica"]
-        presentes = ", ".join(request.form.getlist("presentes"))
-        nova = Aula(data=data, tecnica=tecnica, presentes=presentes)
-        db.session.add(nova)
+        presentes = request.form.getlist("presentes")  # Recebe múltiplos checkboxes
+        presentes_str = ", ".join(presentes)
+
+        nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes_str)
+        db.session.add(nova_aula)
         db.session.commit()
-        return redirect(url_for("aulas"))
+        return redirect(url_for("calendario"))
+
     alunos = Aluno.query.all()
-    lista = Aula.query.all()
-    return render_template("aulas.html", aulas=lista, alunos=alunos)
+    return render_template("aulas.html", alunos=alunos)
 
 # Calendário
 @app.route("/calendario")
@@ -78,5 +90,4 @@ with app.app_context():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
 
