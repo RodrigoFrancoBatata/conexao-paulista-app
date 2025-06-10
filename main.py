@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Modelos
+# MODELOS
 class Aluno(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(120), nullable=False)
@@ -19,10 +19,11 @@ class Aluno(db.Model):
     grau2 = db.Column(db.Boolean, default=False)
     grau3 = db.Column(db.Boolean, default=False)
     grau4 = db.Column(db.Boolean, default=False)
-    data_grau1 = db.Column(db.String(20), nullable=True)
-    data_grau2 = db.Column(db.String(20), nullable=True)
-    data_grau3 = db.Column(db.String(20), nullable=True)
-    data_grau4 = db.Column(db.String(20), nullable=True)
+    data_grau1 = db.Column(db.Date)
+    data_grau2 = db.Column(db.Date)
+    data_grau3 = db.Column(db.Date)
+    data_grau4 = db.Column(db.Date)
+
 
 class Aula(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,12 +31,10 @@ class Aula(db.Model):
     tecnica = db.Column(db.String(120), nullable=False)
     presentes = db.Column(db.Text, nullable=False)
 
-# Rota principal
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# Alunos - visualizar e cadastrar
 @app.route("/alunos", methods=["GET", "POST"])
 def alunos():
     if request.method == "POST":
@@ -53,6 +52,10 @@ def alunos():
         data_grau3 = request.form.get("data_grau3") or None
         data_grau4 = request.form.get("data_grau4") or None
 
+        # Convertendo para tipo date se existir
+        from datetime import datetime
+        def parse_date(d): return datetime.strptime(d, "%Y-%m-%d").date() if d else None
+
         novo = Aluno(
             nome=nome,
             faixa=faixa,
@@ -61,34 +64,32 @@ def alunos():
             grau2=grau2,
             grau3=grau3,
             grau4=grau4,
-            data_grau1=data_grau1,
-            data_grau2=data_grau2,
-            data_grau3=data_grau3,
-            data_grau4=data_grau4
+            data_grau1=parse_date(data_grau1),
+            data_grau2=parse_date(data_grau2),
+            data_grau3=parse_date(data_grau3),
+            data_grau4=parse_date(data_grau4)
         )
+
         db.session.add(novo)
         db.session.commit()
-        return redirect(url_for("alunos"))
-    
+        return redirect("/alunos")
+
     lista = Aluno.query.all()
     return render_template("alunos.html", alunos=lista)
 
-# Aulas - visualizar e cadastrar
+
 @app.route("/aulas", methods=["GET", "POST"])
 def aulas():
     if request.method == "POST":
         data = request.form["data"]
         tecnica = request.form["tecnica"]
         presentes = request.form["presentes"]
-
         nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes)
         db.session.add(nova_aula)
         db.session.commit()
         return redirect("/calendario")
-
     return render_template("aulas.html")
 
-# Calendário
 @app.route("/calendario")
 def calendario():
     aulas = Aula.query.order_by(Aula.data.desc()).all()
@@ -98,7 +99,6 @@ def calendario():
 with app.app_context():
     db.create_all()
 
-# Execução local ou pelo Render
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
