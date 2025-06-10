@@ -16,11 +16,6 @@ class Aula(db.Model):
     tecnica = db.Column(db.String(120), nullable=False)
     presentes = db.Column(db.Text, nullable=False)
 
-# Criar tabelas antes do primeiro request
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 # Rota principal
 @app.route("/")
 def index():
@@ -42,7 +37,9 @@ def calendario():
     aulas = Aula.query.all()
     return render_template("calendario.html", aulas=aulas)
 
-# Execução local ou via Render
+# Execução local ou pelo Render
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()  # Cria as tabelas no contexto correto
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
