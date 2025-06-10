@@ -4,8 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# Configuração do banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# Configuração do banco de dados com fallback local
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL") or "sqlite:///teste.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -24,14 +24,14 @@ class Aula(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(20), nullable=False)
     tecnica = db.Column(db.String(120), nullable=False)
-    presentes = db.Column(db.Text, nullable=False)  # Armazena nomes separados por vírgula
+    presentes = db.Column(db.Text, nullable=False)
 
 # Rota principal
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# Alunos - visualizar e cadastrar
+# Rota de alunos - visualizar e cadastrar
 @app.route("/alunos", methods=["GET", "POST"])
 def alunos():
     if request.method == "POST":
@@ -42,39 +42,25 @@ def alunos():
         grau2 = 'grau2' in request.form
         grau3 = 'grau3' in request.form
         grau4 = 'grau4' in request.form
-
-        novo = Aluno(
-            nome=nome,
-            faixa=faixa,
-            professor=professor,
-            grau1=grau1,
-            grau2=grau2,
-            grau3=grau3,
-            grau4=grau4
-        )
+        novo = Aluno(nome=nome, faixa=faixa, professor=professor, grau1=grau1, grau2=grau2, grau3=grau3, grau4=grau4)
         db.session.add(novo)
         db.session.commit()
         return redirect(url_for("alunos"))
-
     lista = Aluno.query.all()
     return render_template("alunos.html", alunos=lista)
 
-# Aulas - visualizar e cadastrar
+# Rota de aulas - visualizar e cadastrar
 @app.route("/aulas", methods=["GET", "POST"])
 def aulas():
     if request.method == "POST":
         data = request.form["data"]
         tecnica = request.form["tecnica"]
-        presentes = request.form.getlist("presentes")  # Recebe múltiplos checkboxes
-        presentes_str = ", ".join(presentes)
-
-        nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes_str)
+        presentes = request.form["presentes"]
+        nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes)
         db.session.add(nova_aula)
         db.session.commit()
-        return redirect(url_for("calendario"))
-
-    alunos = Aluno.query.all()
-    return render_template("aulas.html", alunos=alunos)
+        return redirect("/calendario")
+    return render_template("aulas.html")
 
 # Calendário
 @app.route("/calendario")
@@ -82,12 +68,11 @@ def calendario():
     aulas = Aula.query.order_by(Aula.data.desc()).all()
     return render_template("calendario.html", aulas=aulas)
 
-# Criação de tabelas
+# Criação das tabelas
 with app.app_context():
     db.create_all()
 
-# Execução local ou pelo Render
+# Execução local ou no Render
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
-
