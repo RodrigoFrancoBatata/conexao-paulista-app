@@ -7,19 +7,22 @@
 </head>
 <body>
   <div class="container">
-    <h1>Calendário de Aulas</h1>
-    {% if aulas %}
-      <ul>
-        {% for aula in aulas %}
-          <li>
-            <strong>{{ aula.data }}</strong> - Técnica: {{ aula.tecnica }}<br>
-            <em>Presentes:</em> {{ aula.presentes | join(", ") }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>Nenhuma aula registrada ainda.</p>
-    {% endif %}
+    <h2>Calendário de Aulas</h2>
+
+    {% for aula in aulas %}
+      <div class="card">
+        <p><strong>Data:</strong> {{ aula.data }}</p>
+        <p><strong>Técnica:</strong> {{ aula.tecnica }}</p>
+        <p><strong>Presentes:</strong> 
+          {% if aula.presentes %}
+            {{ aula.presentes.replace('\n', ', ') }}
+          {% else %}
+            Nenhum aluno presente
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+
     <a href="/" class="back">Voltar</a>
   </div>
 </body>
