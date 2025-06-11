@@ -52,7 +52,7 @@ h1, h2 {
   background-color: #e46000;
 }
 
-input, select, button, label {
+input, select, button, label, textarea {
   display: block;
   width: 100%;
   margin-bottom: 0.75rem;
@@ -72,6 +72,31 @@ button {
 
 button:hover {
   background-color: #e46000;
+}
+
+/* Lista de checkboxes (presença) */
+.checkbox-list {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.checkbox-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.checkbox-list input[type="checkbox"] {
+  width: auto;
+  margin: 0;
 }
 
 @media (max-width: 600px) {
