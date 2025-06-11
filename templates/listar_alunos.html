@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Alunos Cadastrados</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.6rem;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .btn {
+      background-color: darkorange;
+      color: white;
+      padding: 0.4rem 1rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background-color: orangered;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Alunos Cadastrados</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Faixa</th>
+          <th>Professor</th>
+          <th>Grau 1</th>
+          <th>Grau 2</th>
+          <th>Grau 3</th>
+          <th>Grau 4</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for aluno in alunos %}
+        <tr>
+          <td>{{ aluno.nome }}</td>
+          <td>{{ aluno.faixa }}</td>
+          <td>{{ aluno.professor }}</td>
+          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 }}{% endif %}</td>
+          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 }}{% endif %}</td>
+          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 }}{% endif %}</td>
+          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 }}{% endif %}</td>
+          <td><a href="/editar_aluno/{{ aluno.id }}" class="btn">Editar</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <br>
+    <a href="/" class="btn">Voltar</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Aluno</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Editar Aluno</h1>
+    <form action="/editar_aluno/{{ aluno.id }}" method="post">
+      <input type="text" name="nome" value="{{ aluno.nome }}" required><br>
+      <input type="text" name="professor" value="{{ aluno.professor }}" required><br>
+
+      <label>Graus:</label><br>
+      <input type="checkbox" name="grau1" {% if aluno.grau1 %}checked{% endif %}> Grau 1
+      <input type="date" name="data_grau1" value="{{ aluno.data_grau1 }}"><br>
+
+      <input type="checkbox" name="grau2" {% if aluno.grau2 %}checked{% endif %}> Grau 2
+      <input type="date" name="data_grau2" value="{{ aluno.data_grau2 }}"><br>
+
+      <input type="checkbox" name="grau3" {% if aluno.grau3 %}checked{% endif %}> Grau 3
+      <input type="date" name="data_grau3" value="{{ aluno.data_grau3 }}"><br>
+
+      <input type="checkbox" name="grau4" {% if aluno.grau4 %}checked{% endif %}> Grau 4
+      <input type="date" name="data_grau4" value="{{ aluno.data_grau4 }}"><br>
+
+      <label>Faixa:</label>
+      <input type="text" name="faixa" value="{{ aluno.faixa }}" required><br>
+
+      <button type="submit">Salvar</button>
+    </form>
+    <a href="/listar_alunos" class="back">Voltar</a>
+  </div>
+</body>
+</html>
+
