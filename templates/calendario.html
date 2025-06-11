@@ -7,19 +7,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>Calendário de Aulas</h2>
+    <h1>Calendário de Aulas</h1>
 
     {% for aula in aulas %}
       <div class="card">
         <p><strong>Data:</strong> {{ aula.data }}</p>
         <p><strong>Técnica:</strong> {{ aula.tecnica }}</p>
-        <p><strong>Presentes:</strong> 
-          {% if aula.presentes %}
-            {{ aula.presentes.replace('\n', ', ') }}
-          {% else %}
-            Nenhum aluno presente
-          {% endif %}
-        </p>
+        <p><strong>Presentes:</strong> {{ aula.presentes }}</p>
       </div>
     {% endfor %}
 
