@@ -19,10 +19,10 @@ class Aluno(db.Model):
     grau2 = db.Column(db.Boolean, default=False)
     grau3 = db.Column(db.Boolean, default=False)
     grau4 = db.Column(db.Boolean, default=False)
-    data_grau1 = db.Column(db.Date)
-    data_grau2 = db.Column(db.Date)
-    data_grau3 = db.Column(db.Date)
-    data_grau4 = db.Column(db.Date)
+    data_grau1 = db.Column(db.String(20))
+    data_grau2 = db.Column(db.String(20))
+    data_grau3 = db.Column(db.String(20))
+    data_grau4 = db.Column(db.String(20))
 
 class Aula(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +30,7 @@ class Aula(db.Model):
     tecnica = db.Column(db.String(120), nullable=False)
     presentes = db.Column(db.Text, nullable=False)
 
-# Rotas
+# Rotas principais
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -50,44 +50,14 @@ def alunos():
         data_grau3 = request.form.get("data_grau3") or None
         data_grau4 = request.form.get("data_grau4") or None
 
-        novo = Aluno(
-            nome=nome,
-            faixa=faixa,
-            professor=professor,
-            grau1=grau1,
-            grau2=grau2,
-            grau3=grau3,
-            grau4=grau4,
-            data_grau1=data_grau1,
-            data_grau2=data_grau2,
-            data_grau3=data_grau3,
-            data_grau4=data_grau4,
-        )
+        novo = Aluno(nome=nome, faixa=faixa, professor=professor,
+                     grau1=grau1, grau2=grau2, grau3=grau3, grau4=grau4,
+                     data_grau1=data_grau1, data_grau2=data_grau2,
+                     data_grau3=data_grau3, data_grau4=data_grau4)
         db.session.add(novo)
         db.session.commit()
         return redirect("/listar_alunos")
-
     return render_template("alunos.html")
-
-@app.route("/aulas", methods=["GET", "POST"])
-def aulas():
-    if request.method == "POST":
-        data = request.form["data"]
-        tecnica = request.form["tecnica"]
-        presentes = request.form["presentes"]
-
-        nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes)
-        db.session.add(nova_aula)
-        db.session.commit()
-        return redirect("/calendario")
-
-    alunos = Aluno.query.all()
-    return render_template("aulas.html", alunos=alunos)
-
-@app.route("/calendario")
-def calendario():
-    aulas = Aula.query.order_by(Aula.data.desc()).all()
-    return render_template("calendario.html", aulas=aulas)
 
 @app.route("/listar_alunos")
 def listar_alunos():
@@ -97,7 +67,6 @@ def listar_alunos():
 @app.route("/editar_aluno/<int:id>", methods=["GET", "POST"])
 def editar_aluno(id):
     aluno = Aluno.query.get_or_404(id)
-
     if request.method == "POST":
         aluno.nome = request.form["nome"]
         aluno.faixa = request.form["faixa"]
@@ -110,13 +79,32 @@ def editar_aluno(id):
         aluno.data_grau2 = request.form.get("data_grau2") or None
         aluno.data_grau3 = request.form.get("data_grau3") or None
         aluno.data_grau4 = request.form.get("data_grau4") or None
-
         db.session.commit()
         return redirect("/listar_alunos")
-
     return render_template("editar_aluno.html", aluno=aluno)
 
-# Criação das tabelas (caso necessário)
+@app.route("/aulas", methods=["GET", "POST"])
+def aulas():
+    if request.method == "POST":
+        data = request.form["data"]
+        tecnica = request.form["tecnica"]
+        presentes = request.form.getlist("presentes")
+        presentes_formatado = "\n".join(presentes)
+
+        nova_aula = Aula(data=data, tecnica=tecnica, presentes=presentes_formatado)
+        db.session.add(nova_aula)
+        db.session.commit()
+        return redirect("/calendario")
+
+    alunos = Aluno.query.order_by(Aluno.nome.asc()).all()
+    return render_template("aulas.html", alunos=alunos)
+
+@app.route("/calendario")
+def calendario():
+    aulas = Aula.query.order_by(Aula.data.desc()).all()
+    return render_template("calendario.html", aulas=aulas)
+
+# Criação das tabelas
 with app.app_context():
     db.create_all()
 
