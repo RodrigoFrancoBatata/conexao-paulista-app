@@ -11,14 +11,18 @@
     <form action="/aulas" method="post">
       <input type="date" name="data" required><br>
       <input type="text" name="tecnica" placeholder="Técnica da aula" required><br>
+
       <label>Alunos presentes:</label><br>
-      {% for aluno in alunos %}
-        <label><input type="checkbox" name="presentes" value="{{ aluno.nome }}"> {{ aluno.nome }}</label><br>
-      {% endfor %}
-      <br>
+      <select name="presentes" multiple size="6">
+        {% for aluno in alunos %}
+          <option value="{{ aluno.nome }}">{{ aluno.nome }}</option>
+        {% endfor %}
+      </select><br><br>
+
       <button type="submit">Salvar Aula</button>
     </form>
     <a href="/" class="back">Voltar</a>
   </div>
 </body>
 </html>
+
