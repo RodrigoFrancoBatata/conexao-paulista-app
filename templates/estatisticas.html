@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Estatísticas de Presença</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #e76600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #ff7300;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .baixo {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estatísticas de Presença</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Faixa</th>
+                <th>Presenças</th>
+                <th>Total de Aulas</th>
+                <th>Presença (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in estatisticas %}
+            <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.faixa }}</td>
+                <td>{{ aluno.presencas }}</td>
+                <td>{{ aluno.total_aulas }}</td>
+                <td {% if aluno.percentual < 70 %}class="baixo"{% endif %}>
+                    {{ aluno.percentual }}%
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+

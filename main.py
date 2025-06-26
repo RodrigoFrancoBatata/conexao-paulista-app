@@ -108,6 +108,30 @@ def calendario():
     aulas = Aula.query.order_by(Aula.data.desc()).all()
     return render_template("calendario.html", aulas=aulas)
 
+@app.route("/estatisticas")
+def estatisticas():
+    alunos = Aluno.query.all()
+    aulas = Aula.query.all()
+
+    dados = []
+    for aluno in alunos:
+        total_aulas = len(aulas)
+        presencas = 0
+        for aula in aulas:
+            if aluno.nome in aula.presentes:
+                presencas += 1
+        porcentagem = round((presencas / total_aulas) * 100, 1) if total_aulas > 0 else 0
+        dados.append({
+            "nome": aluno.nome,
+            "faixa": aluno.faixa,
+            "presencas": presencas,
+            "total_aulas": total_aulas,
+            "percentual": porcentagem
+        })
+
+    return render_template("estatisticas.html", estatisticas=dados)
+
+
 # Criação das tabelas
 with app.app_context():
     db.create_all()
