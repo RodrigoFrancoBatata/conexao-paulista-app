@@ -133,17 +133,21 @@ def estatisticas():
 
 @app.route("/deletar_aulas_teste")
 def deletar_aulas_teste():
-    palavras_chave = ["Teste", "Relógio", "bolão"]  # Palavras que identificam aulas de teste
+    # Só vamos analisar o campo TÉCNICA agora (não mais "presentes")
+    palavras_chave = ["teste", "relógio"]  # todas em minúsculas para comparação segura
+
     aulas = Aula.query.all()
     deletadas = 0
 
     for aula in aulas:
-        if any(p.lower() in aula.tecnica.lower() or p.lower() in aula.presentes.lower() for p in palavras_chave):
+        tecnica = aula.tecnica.lower()
+        if any(p in tecnica for p in palavras_chave):
             db.session.delete(aula)
             deletadas += 1
 
     db.session.commit()
-    return f"{deletadas} aulas de teste removidas com sucesso!"
+    return f"{deletadas} aulas com técnica de teste/remover foram apagadas com sucesso."
+
 
 
 
