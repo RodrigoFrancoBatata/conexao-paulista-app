@@ -1,59 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Alunos Cadastrados</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #e76600;
-        }
-        .filtro {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        select, button {
-            padding: 8px 12px;
-            font-size: 16px;
-            margin: 5px;
-        }
-        .aluno {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 10px;
-            background-color: #fff;
-            border-radius: 6px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Cadastrar Aluno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ccc;
+    }
+
+    h1 {
+      color: #e76600;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .checkbox-group {
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #ff7300;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e25d00;
+    }
+
+    .btn-voltar {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-    <h1>Alunos Cadastrados</h1>
+  <div class="container">
+    <h1>Cadastrar Aluno</h1>
+    <form method="POST" action="{{ url_for('alunos') }}">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
 
-    <div class="filtro">
-        <form method="get" action="{{ url_for('listar_alunos') }}">
-            <label for="professor">Filtrar por professor:</label>
-            <select name="professor" id="professor" onchange="this.form.submit()">
-                <option value="">Todos</option>
-                {% for prof in professores %}
-                    <option value="{{ prof }}" {% if prof == professor_filtro %}selected{% endif %}>{{ prof }}</option>
-                {% endfor %}
-            </select>
-        </form>
-    </div>
+      <label for="faixa">Faixa:</label>
+      <input type="text" id="faixa" name="faixa" required>
 
-    {% for aluno in alunos %}
-        <div class="aluno">
-            <strong>Nome:</strong> {{ aluno.nome }}<br>
-            <strong>Faixa:</strong> {{ aluno.faixa }}<br>
-            <strong>Professor:</strong> {{ aluno.professor }}
-        </div>
-    {% endfor %}
+      <label for="professor">Professor:</label>
+      <input type="text" id="professor" name="professor" required>
 
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="grau1"> Grau 1</label>
+        <input type="date" name="data_grau1">
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="grau2"> Grau 2</label>
+        <input type="date" name="data_grau2">
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="grau3"> Grau 3</label>
+        <input type="date" name="data_grau3">
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="grau4"> Grau 4</label>
+        <input type="date" name="data_grau4">
+      </div>
+
+      <button type="submit">Salvar Aluno</button>
+    </form>
+
+    <a href="/" class="btn-voltar">← Voltar ao Início</a>
+  </div>
 </body>
 </html>

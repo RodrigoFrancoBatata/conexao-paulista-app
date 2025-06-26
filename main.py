@@ -37,8 +37,7 @@ def index():
 
 @app.route("/cadastrar_aluno")
 def cadastrar_aluno():
-    alunos = Aluno.query.order_by(Aluno.nome.asc()).all()
-    return render_template("listar_alunos.html", alunos=alunos)
+    return render_template("alunos.html")
 
 
 @app.route("/alunos", methods=["POST"])
