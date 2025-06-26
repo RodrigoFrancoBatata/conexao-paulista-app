@@ -3,34 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <title>Editar Aluno</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #e76600;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    .grau-container {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .grau-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #ff7300;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #e25d00;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #333;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Editar Aluno</h1>
     <form action="/editar_aluno/{{ aluno.id }}" method="post">
-      <input type="text" name="nome" value="{{ aluno.nome }}" required><br>
-      <input type="text" name="professor" value="{{ aluno.professor }}" required><br>
+      <label>Nome:</label>
+      <input type="text" name="nome" value="{{ aluno.nome }}" required>
 
-      <label>Graus:</label><br>
-      <input type="checkbox" name="grau1" {% if aluno.grau1 %}checked{% endif %}> Grau 1
-      <input type="date" name="data_grau1" value="{{ aluno.data_grau1 }}"><br>
+      <label>Professor:</label>
+      <input type="text" name="professor" value="{{ aluno.professor }}" required>
 
-      <input type="checkbox" name="grau2" {% if aluno.grau2 %}checked{% endif %}> Grau 2
-      <input type="date" name="data_grau2" value="{{ aluno.data_grau2 }}"><br>
-
-      <input type="checkbox" name="grau3" {% if aluno.grau3 %}checked{% endif %}> Grau 3
-      <input type="date" name="data_grau3" value="{{ aluno.data_grau3 }}"><br>
-
-      <input type="checkbox" name="grau4" {% if aluno.grau4 %}checked{% endif %}> Grau 4
-      <input type="date" name="data_grau4" value="{{ aluno.data_grau4 }}"><br>
+      <label>Graus:</label>
+      <div class="grau-container">
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau1" {% if aluno.grau1 %}checked{% endif %}> Grau 1</label>
+          <input type="date" name="data_grau1" value="{{ aluno.data_grau1 }}">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau2" {% if aluno.grau2 %}checked{% endif %}> Grau 2</label>
+          <input type="date" name="data_grau2" value="{{ aluno.data_grau2 }}">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau3" {% if aluno.grau3 %}checked{% endif %}> Grau 3</label>
+          <input type="date" name="data_grau3" value="{{ aluno.data_grau3 }}">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau4" {% if aluno.grau4 %}checked{% endif %}> Grau 4</label>
+          <input type="date" name="data_grau4" value="{{ aluno.data_grau4 }}">
+        </div>
+      </div>
 
       <label>Faixa:</label>
-      <input type="text" name="faixa" value="{{ aluno.faixa }}" required><br>
+      <input type="text" name="faixa" value="{{ aluno.faixa }}" required>
 
       <button type="submit">Salvar</button>
     </form>
-    <a href="/listar_alunos" class="back">Voltar</a>
+
+    <a href="/listar_alunos" class="back">← Voltar</a>
   </div>
 </body>
 </html>
