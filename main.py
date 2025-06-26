@@ -35,29 +35,33 @@ class Aula(db.Model):
 def index():
     return render_template("index.html")
 
-@app.route("/alunos", methods=["GET", "POST"])
-def alunos():
-    if request.method == "POST":
-        nome = request.form["nome"]
-        faixa = request.form["faixa"]
-        professor = request.form["professor"]
-        grau1 = 'grau1' in request.form
-        grau2 = 'grau2' in request.form
-        grau3 = 'grau3' in request.form
-        grau4 = 'grau4' in request.form
-        data_grau1 = request.form.get("data_grau1") or None
-        data_grau2 = request.form.get("data_grau2") or None
-        data_grau3 = request.form.get("data_grau3") or None
-        data_grau4 = request.form.get("data_grau4") or None
-
-        novo = Aluno(nome=nome, faixa=faixa, professor=professor,
-                     grau1=grau1, grau2=grau2, grau3=grau3, grau4=grau4,
-                     data_grau1=data_grau1, data_grau2=data_grau2,
-                     data_grau3=data_grau3, data_grau4=data_grau4)
-        db.session.add(novo)
-        db.session.commit()
-        return redirect("/listar_alunos")
+@app.route("/cadastrar_aluno")
+def cadastrar_aluno():
     return render_template("alunos.html")
+
+@app.route("/alunos", methods=["POST"])
+def alunos():
+    nome = request.form["nome"]
+    faixa = request.form["faixa"]
+    professor = request.form["professor"]
+    grau1 = 'grau1' in request.form
+    grau2 = 'grau2' in request.form
+    grau3 = 'grau3' in request.form
+    grau4 = 'grau4' in request.form
+    data_grau1 = request.form.get("data_grau1") or None
+    data_grau2 = request.form.get("data_grau2") or None
+    data_grau3 = request.form.get("data_grau3") or None
+    data_grau4 = request.form.get("data_grau4") or None
+
+    novo = Aluno(
+        nome=nome, faixa=faixa, professor=professor,
+        grau1=grau1, grau2=grau2, grau3=grau3, grau4=grau4,
+        data_grau1=data_grau1, data_grau2=data_grau2,
+        data_grau3=data_grau3, data_grau4=data_grau4
+    )
+    db.session.add(novo)
+    db.session.commit()
+    return redirect("/listar_alunos")
 
 @app.route("/listar_alunos")
 def listar_alunos():
@@ -112,3 +116,4 @@ with app.app_context():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
+
