@@ -1,102 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Cadastrar Aluno</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <style>
-    .grau-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .grau-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .grau-item label {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-weight: bold;
-    }
-
-    .grau-item input[type="date"] {
-      padding: 0.2rem;
-    }
-
-    .faixa {
-      width: 100%;
-      height: 30px;
-      border: 2px solid #000;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .faixa:hover {
-      transform: scale(1.02);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Alunos Cadastrados</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #e76600;
+        }
+        .filtro {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 8px 12px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .aluno {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1 style="color: darkorange; text-align: center;">Cadastrar Aluno</h1>
-    <form action="/alunos" method="post">
-      <input type="text" name="nome" placeholder="Nome do aluno" required><br>
-      <input type="text" name="professor" placeholder="Professor responsável" required><br>
+    <h1>Alunos Cadastrados</h1>
 
-      <label><strong>Graus:</strong></label>
-      <div class="grau-container">
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau1"> Grau 1</label>
-          <input type="date" name="data_grau1">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau2"> Grau 2</label>
-          <input type="date" name="data_grau2">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau3"> Grau 3</label>
-          <input type="date" name="data_grau3">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau4"> Grau 4</label>
-          <input type="date" name="data_grau4">
-        </div>
-      </div>
-
-      <label><strong>Faixa:</strong></label><br>
-      <input type="hidden" name="faixa" id="faixaSelecionada" required>
-      <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('verde')" class="faixa" style="background: linear-gradient(to right, mediumseagreen 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('azul')" class="faixa" style="background: linear-gradient(to right, royalblue 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('roxa')" class="faixa" style="background: linear-gradient(to right, purple 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('marrom')" class="faixa" style="background: linear-gradient(to right, saddlebrown 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('preta')" class="faixa" style="background: linear-gradient(to right, black 70%, red 30%)"></div>
-
-      <button type="submit">Salvar</button>
-    </form>
-
-    <div style="margin-top: 1rem;">
-      <a href="/" class="back">Voltar</a>
+    <div class="filtro">
+        <form method="get" action="{{ url_for('listar_alunos') }}">
+            <label for="professor">Filtrar por professor:</label>
+            <select name="professor" id="professor" onchange="this.form.submit()">
+                <option value="">Todos</option>
+                {% for prof in professores %}
+                    <option value="{{ prof }}" {% if prof == professor_filtro %}selected{% endif %}>{{ prof }}</option>
+                {% endfor %}
+            </select>
+        </form>
     </div>
-  </div>
 
-  <script>
-    function selecionarFaixa(faixa) {
-      document.getElementById("faixaSelecionada").value = faixa;
-      const faixas = document.querySelectorAll(".faixa");
-      faixas.forEach(f => f.style.outline = "");
-      event.currentTarget.style.outline = "3px solid red";
-    }
-  </script>
+    {% for aluno in alunos %}
+        <div class="aluno">
+            <strong>Nome:</strong> {{ aluno.nome }}<br>
+            <strong>Faixa:</strong> {{ aluno.faixa }}<br>
+            <strong>Professor:</strong> {{ aluno.professor }}
+        </div>
+    {% endfor %}
+
 </body>
 </html>
