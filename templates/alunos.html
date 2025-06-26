@@ -3,61 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Cadastrar Aluno</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/style.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      padding: 20px;
+    .grau-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px #ccc;
+    .grau-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
-    h1 {
-      color: #e76600;
-      text-align: center;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
+    .grau-item label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
       font-weight: bold;
     }
 
-    input[type="text"],
-    input[type="date"] {
+    .grau-item input[type="date"] {
+      padding: 0.2rem;
+    }
+
+    .faixa {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      height: 30px;
+      border: 2px solid #000;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .checkbox-group {
-      margin-top: 10px;
-    }
-
-    .checkbox-group label {
-      display: inline-block;
-      margin-right: 10px;
+    .faixa:hover {
+      transform: scale(1.02);
     }
 
     button {
-      margin-top: 20px;
       background-color: #ff7300;
       color: white;
+      font-weight: bold;
       padding: 10px 20px;
       border: none;
       border-radius: 6px;
-      font-size: 16px;
+      margin-top: 20px;
       cursor: pointer;
     }
 
@@ -65,51 +58,79 @@
       background-color: #e25d00;
     }
 
-    .btn-voltar {
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    .back {
       display: inline-block;
       margin-top: 20px;
+      color: #333;
       text-decoration: none;
-      color: #555;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Cadastrar Aluno</h1>
-    <form method="POST" action="{{ url_for('alunos') }}">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
+    <h1 style="color: darkorange; text-align: center;">Cadastrar Aluno</h1>
+    <form action="/alunos" method="post">
+      <input type="text" name="nome" placeholder="Nome do aluno" required><br><br>
+      <input type="text" name="professor" placeholder="Professor responsável" required><br><br>
 
-      <label for="faixa">Faixa:</label>
-      <input type="text" id="faixa" name="faixa" required>
-
-      <label for="professor">Professor:</label>
-      <input type="text" id="professor" name="professor" required>
-
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="grau1"> Grau 1</label>
-        <input type="date" name="data_grau1">
+      <label><strong>Graus:</strong></label>
+      <div class="grau-container">
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau1"> Grau 1</label>
+          <input type="date" name="data_grau1">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau2"> Grau 2</label>
+          <input type="date" name="data_grau2">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau3"> Grau 3</label>
+          <input type="date" name="data_grau3">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau4"> Grau 4</label>
+          <input type="date" name="data_grau4">
+        </div>
       </div>
 
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="grau2"> Grau 2</label>
-        <input type="date" name="data_grau2">
-      </div>
+      <label><strong>Faixa:</strong></label><br>
+      <input type="hidden" name="faixa" id="faixaSelecionada" required>
 
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="grau3"> Grau 3</label>
-        <input type="date" name="data_grau3">
-      </div>
+      <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('verde')" class="faixa" style="background: linear-gradient(to right, mediumseagreen 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('azul')" class="faixa" style="background: linear-gradient(to right, royalblue 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('roxa')" class="faixa" style="background: linear-gradient(to right, purple 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('marrom')" class="faixa" style="background: linear-gradient(to right, saddlebrown 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('preta')" class="faixa" style="background: linear-gradient(to right, black 70%, red 30%)"></div>
 
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="grau4"> Grau 4</label>
-        <input type="date" name="data_grau4">
-      </div>
-
-      <button type="submit">Salvar Aluno</button>
+      <button type="submit">Salvar</button>
     </form>
 
-    <a href="/" class="btn-voltar">← Voltar ao Início</a>
+    <div style="margin-top: 1rem;">
+      <a href="/" class="back">← Voltar</a>
+    </div>
   </div>
+
+  <script>
+    function selecionarFaixa(faixa) {
+      document.getElementById("faixaSelecionada").value = faixa;
+      const faixas = document.querySelectorAll(".faixa");
+      faixas.forEach(f => f.style.outline = "");
+      event.currentTarget.style.outline = "3px solid red";
+    }
+  </script>
 </body>
 </html>
+
+
