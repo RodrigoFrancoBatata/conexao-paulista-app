@@ -3,34 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <title>Alunos Cadastrados</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/style.css">
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #e76600;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
     }
+
     th, td {
       border: 1px solid #ccc;
-      padding: 0.6rem;
+      padding: 10px;
       text-align: left;
+      font-size: 15px;
     }
+
     th {
       background-color: #f2f2f2;
     }
+
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
+
     .btn {
-      background-color: darkorange;
+      background-color: #ff7300;
       color: white;
-      padding: 0.4rem 1rem;
+      padding: 6px 12px;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 6px;
       font-weight: bold;
+      font-size: 14px;
     }
+
     .btn:hover {
-      background-color: orangered;
+      background-color: #e25d00;
+    }
+
+    .btn.voltar {
+      margin-top: 20px;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      td {
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+        border: none;
+        border-bottom: 1px solid #ccc;
+      }
+
+      td:before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      td:nth-of-type(1):before { content: "Nome"; }
+      td:nth-of-type(2):before { content: "Faixa"; }
+      td:nth-of-type(3):before { content: "Professor"; }
+      td:nth-of-type(4):before { content: "Grau 1"; }
+      td:nth-of-type(5):before { content: "Grau 2"; }
+      td:nth-of-type(6):before { content: "Grau 3"; }
+      td:nth-of-type(7):before { content: "Grau 4"; }
+      td:nth-of-type(8):before { content: "Ações"; }
     }
   </style>
 </head>
@@ -57,18 +130,20 @@
           <td>{{ aluno.nome }}</td>
           <td>{{ aluno.faixa }}</td>
           <td>{{ aluno.professor }}</td>
-          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 }}{% endif %}</td>
-          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 }}{% endif %}</td>
-          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 }}{% endif %}</td>
-          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 }}{% endif %}</td>
+          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 or 'sem data' }}{% endif %}</td>
+          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 or 'sem data' }}{% endif %}</td>
+          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 or 'sem data' }}{% endif %}</td>
+          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 or 'sem data' }}{% endif %}</td>
           <td><a href="/editar_aluno/{{ aluno.id }}" class="btn">Editar</a></td>
         </tr>
+        {% else %}
+        <tr><td colspan="8" style="text-align:center;">Nenhum aluno cadastrado.</td></tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <br>
-    <a href="/" class="btn">Voltar</a>
+    <a href="/" class="btn voltar">Voltar</a>
   </div>
 </body>
 </html>
+

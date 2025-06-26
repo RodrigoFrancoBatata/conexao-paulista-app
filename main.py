@@ -65,17 +65,9 @@ def alunos():
 
 @app.route("/listar_alunos")
 def listar_alunos():
-    professor_filtro = request.args.get("professor")
-    if professor_filtro:
-        alunos = Aluno.query.filter_by(professor=professor_filtro).all()
-    else:
-        alunos = Aluno.query.all()
+    alunos = Aluno.query.order_by(Aluno.nome.asc()).all()
+    return render_template("listar_alunos.html", alunos=alunos)
 
-    # Lista distinta de professores para o dropdown
-    professores = db.session.query(Aluno.professor).distinct().all()
-    professores = [p[0] for p in professores]
-
-    return render_template("listar_alunos.html", alunos=alunos, professores=professores, professor_filtro=professor_filtro)
 
 @app.route("/editar_aluno/<int:id>", methods=["GET", "POST"])
 def editar_aluno(id):
