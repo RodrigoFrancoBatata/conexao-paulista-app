@@ -72,38 +72,37 @@
         display: block;
       }
 
-      th {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 10px;
+        background: #fff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.05);
       }
 
       td {
-        position: relative;
-        padding-left: 50%;
-        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
         border: none;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
       }
 
-      td:before {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 45%;
-        white-space: nowrap;
+      td:last-child {
+        border-bottom: none;
+      }
+
+      td::before {
+        content: attr(data-label);
         font-weight: bold;
-        text-align: left;
+        color: #333;
       }
-
-      td:nth-of-type(1):before { content: "Nome"; }
-      td:nth-of-type(2):before { content: "Faixa"; }
-      td:nth-of-type(3):before { content: "Professor"; }
-      td:nth-of-type(4):before { content: "Grau 1"; }
-      td:nth-of-type(5):before { content: "Grau 2"; }
-      td:nth-of-type(6):before { content: "Grau 3"; }
-      td:nth-of-type(7):before { content: "Grau 4"; }
-      td:nth-of-type(8):before { content: "Ações"; }
     }
   </style>
 </head>
@@ -127,14 +126,14 @@
       <tbody>
         {% for aluno in alunos %}
         <tr>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.faixa }}</td>
-          <td>{{ aluno.professor }}</td>
-          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 or '' }}{% endif %}</td>
-          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 or '' }}{% endif %}</td>
-          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 or '' }}{% endif %}</td>
-          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 or '' }}{% endif %}</td>
-          <td><a href="/editar_aluno/{{ aluno.id }}" class="btn">Editar</a></td>
+          <td data-label="Nome">{{ aluno.nome }}</td>
+          <td data-label="Faixa">{{ aluno.faixa }}</td>
+          <td data-label="Professor">{{ aluno.professor }}</td>
+          <td data-label="Grau 1">{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 or '' }}{% endif %}</td>
+          <td data-label="Grau 2">{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 or '' }}{% endif %}</td>
+          <td data-label="Grau 3">{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 or '' }}{% endif %}</td>
+          <td data-label="Grau 4">{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 or '' }}{% endif %}</td>
+          <td data-label="Ações"><a href="/editar_aluno/{{ aluno.id }}" class="btn">Editar</a></td>
         </tr>
         {% else %}
         <tr><td colspan="8" style="text-align:center;">Nenhum aluno cadastrado.</td></tr>
@@ -142,7 +141,7 @@
       </tbody>
     </table>
 
-    <a href="/" class="btn voltar">Voltar</a>
+    <a href="/" class="btn voltar">← Voltar</a>
   </div>
 </body>
 </html>
