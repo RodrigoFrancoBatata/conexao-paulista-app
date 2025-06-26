@@ -131,6 +131,21 @@ def estatisticas():
 
     return render_template("estatisticas.html", estatisticas=dados)
 
+@app.route("/deletar_aulas_teste")
+def deletar_aulas_teste():
+    palavras_chave = ["Teste", "Relógio", "bolão"]  # Palavras que identificam aulas de teste
+    aulas = Aula.query.all()
+    deletadas = 0
+
+    for aula in aulas:
+        if any(p.lower() in aula.tecnica.lower() or p.lower() in aula.presentes.lower() for p in palavras_chave):
+            db.session.delete(aula)
+            deletadas += 1
+
+    db.session.commit()
+    return f"{deletadas} aulas de teste removidas com sucesso!"
+
+
 
 # Criação das tabelas
 with app.app_context():
