@@ -1,25 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Conexão Paulista - Presença</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <link rel="manifest" href="/static/manifest.json">
-  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-  <meta name="theme-color" content="#f4731c">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Conexão Paulista - Controle de Presença</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
+
+        img {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #e76600;
+            font-size: 28px;
+        }
+
+        .button {
+            display: block;
+            width: 80%;
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 15px;
+            background-color: #ff7300;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #e25d00;
+        }
+
+        .timer-container {
+            margin-top: 40px;
+        }
+
+        select, button.timer-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        #cronometro {
+            font-size: 48px;
+            color: #ff7300;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <img src="/static/icon-192.png" alt="Conexão Paulista" class="logo">
+
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Conexão Paulista">
     <h1>Controle de Presença</h1>
-    <div class="menu">
-      <a href="/alunos">Cadastrar Aluno</a>
-      <a href="/aulas">Registrar Aula</a>
-      <a href="/calendario">Ver Aulas (Calendário)</a>
-      <a href="/listar_alunos">Ver Alunos Cadastrados</a>
+
+    <a href="{{ url_for('cadastro_aluno') }}" class="button">Cadastrar Aluno</a>
+    <a href="{{ url_for('aulas') }}" class="button">Registrar Aula</a>
+    <a href="{{ url_for('calendario') }}" class="button">Ver Aulas (Calendário)</a>
+    <a href="{{ url_for('alunos') }}" class="button">Ver Alunos Cadastrados</a>
+
+    <div class="timer-container">
+        <h2 style="color: #e76600;">Cronômetro de Luta</h2>
+        <label for="tempoLuta">Escolha o tempo:</label>
+        <select id="tempoLuta">
+            <option value="180">3 minutos</option>
+            <option value="300">5 minutos</option>
+        </select>
+        <button class="timer-btn" onclick="iniciarCronometro()">Iniciar Cronômetro</button>
+        <h1 id="cronometro">03:00</h1>
     </div>
-  </div>
+
+    <script>
+        let intervalo;
+
+        function iniciarCronometro() {
+            clearInterval(intervalo); // Limpa cronômetro anterior
+
+            let tempoRestante = parseInt(document.getElementById("tempoLuta").value);
+            atualizarDisplay(tempoRestante);
+
+            intervalo = setInterval(() => {
+                tempoRestante--;
+                if (tempoRestante < 0) {
+                    clearInterval(intervalo);
+                    document.getElementById("cronometro").innerText = "Fim!";
+                    return;
+                }
+                atualizarDisplay(tempoRestante);
+            }, 1000);
+        }
+
+        function atualizarDisplay(segundos) {
+            const minutos = Math.floor(segundos / 60).toString().padStart(2, '0');
+            const segs = (segundos % 60).toString().padStart(2, '0');
+            document.getElementById("cronometro").innerText = `${minutos}:${segs}`;
+        }
+    </script>
+
 </body>
 </html>
-
