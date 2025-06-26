@@ -130,10 +130,10 @@
           <td>{{ aluno.nome }}</td>
           <td>{{ aluno.faixa }}</td>
           <td>{{ aluno.professor }}</td>
-          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 or 'sem data' }}{% endif %}</td>
-          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 or 'sem data' }}{% endif %}</td>
-          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 or 'sem data' }}{% endif %}</td>
-          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 or 'sem data' }}{% endif %}</td>
+          <td>{% if aluno.grau1 %}✔️ {{ aluno.data_grau1 or '' }}{% endif %}</td>
+          <td>{% if aluno.grau2 %}✔️ {{ aluno.data_grau2 or '' }}{% endif %}</td>
+          <td>{% if aluno.grau3 %}✔️ {{ aluno.data_grau3 or '' }}{% endif %}</td>
+          <td>{% if aluno.grau4 %}✔️ {{ aluno.data_grau4 or '' }}{% endif %}</td>
           <td><a href="/editar_aluno/{{ aluno.id }}" class="btn">Editar</a></td>
         </tr>
         {% else %}
@@ -146,4 +146,3 @@
   </div>
 </body>
 </html>
-
