@@ -4,58 +4,39 @@
   <meta charset="UTF-8">
   <title>Cadastrar Aluno</title>
   <link rel="stylesheet" href="/static/style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 400px;
-      margin: auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
-    h1 {
-      text-align: center;
-      color: darkorange;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"],
-    input[type="date"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
+    .grau-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .grau-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
-    label {
+    .grau-item label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
       font-weight: bold;
+    }
+
+    .grau-item input[type="date"] {
+      padding: 0.2rem;
     }
 
     .faixa {
       width: 100%;
       height: 30px;
       border: 2px solid #000;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
       cursor: pointer;
       transition: 0.3s;
-      border-radius: 4px;
     }
 
     .faixa:hover {
@@ -63,76 +44,81 @@
     }
 
     button {
-      width: 100%;
       background-color: #ff7300;
       color: white;
       font-weight: bold;
-      padding: 12px;
+      padding: 10px 20px;
       border: none;
       border-radius: 6px;
+      margin-top: 20px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     button:hover {
       background-color: #e25d00;
     }
 
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
     .back {
-      display: block;
-      text-align: center;
-      margin-top: 15px;
+      display: inline-block;
+      margin-top: 20px;
+      color: #333;
       text-decoration: none;
-      color: #444;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Cadastrar Aluno</h1>
+    <h1 style="color: darkorange; text-align: center;">Cadastrar Aluno</h1>
     <form action="/alunos" method="post">
-      <input type="text" name="nome" placeholder="Nome do aluno" required>
-      <input type="text" name="professor" placeholder="Professor responsável" required>
+      <input type="text" name="nome" placeholder="Nome do aluno" required><br><br>
+      <input type="text" name="professor" placeholder="Professor responsável" required><br><br>
 
-      <div class="grau-item">
-        <input type="checkbox" name="grau1">
-        <label>Grau 1</label>
-        <input type="date" name="data_grau1">
+      <label><strong>Graus:</strong></label>
+      <div class="grau-container">
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau1"> Grau 1</label>
+          <input type="date" name="data_grau1">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau2"> Grau 2</label>
+          <input type="date" name="data_grau2">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau3"> Grau 3</label>
+          <input type="date" name="data_grau3">
+        </div>
+        <div class="grau-item">
+          <label><input type="checkbox" name="grau4"> Grau 4</label>
+          <input type="date" name="data_grau4">
+        </div>
       </div>
 
-      <div class="grau-item">
-        <input type="checkbox" name="grau2">
-        <label>Grau 2</label>
-        <input type="date" name="data_grau2">
-      </div>
-
-      <div class="grau-item">
-        <input type="checkbox" name="grau3">
-        <label>Grau 3</label>
-        <input type="date" name="data_grau3">
-      </div>
-
-      <div class="grau-item">
-        <input type="checkbox" name="grau4">
-        <label>Grau 4</label>
-        <input type="date" name="data_grau4">
-      </div>
-
-      <label><strong>Faixas:</strong></label>
       <input type="hidden" name="faixa" id="faixaSelecionada" required>
 
-      <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('verde')" class="faixa" style="background: linear-gradient(to right, mediumseagreen 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('azul')" class="faixa" style="background: linear-gradient(to right, royalblue 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('roxa')" class="faixa" style="background: linear-gradient(to right, purple 50%, black 50%)"></div>
-      <div onclick="selecionarFaixa('marrom')" class="faixa" style="background: linear-gradient(to right, saddlebrown 50%, black 50%)"></div>
+      <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('verde')" class="faixa" style="background: linear-gradient(to right, mediumseagreen 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('azul')" class="faixa" style="background: linear-gradient(to right, royalblue 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('roxa')" class="faixa" style="background: linear-gradient(to right, purple 70%, black 30%)"></div>
+      <div onclick="selecionarFaixa('marrom')" class="faixa" style="background: linear-gradient(to right, saddlebrown 70%, black 30%)"></div>
       <div onclick="selecionarFaixa('preta')" class="faixa" style="background: linear-gradient(to right, black 70%, red 30%)"></div>
 
       <button type="submit">Salvar</button>
     </form>
-    <a href="/" class="back">← Voltar ao Início</a>
+
+    <div style="margin-top: 1rem;">
+      <a href="/" class="back">← Voltar</a>
+    </div>
   </div>
 
   <script>
