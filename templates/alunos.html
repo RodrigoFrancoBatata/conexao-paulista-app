@@ -4,37 +4,69 @@
   <meta charset="UTF-8">
   <title>Cadastrar Aluno</title>
   <link rel="stylesheet" href="/static/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: darkorange;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
     .grau-container {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .grau-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      justify-content: space-between;
     }
 
     .grau-item label {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
       font-weight: bold;
-    }
-
-    .grau-item input[type="date"] {
-      padding: 0.2rem;
+      gap: 0.5rem;
+      min-width: 100px;
     }
 
     .faixa {
       width: 100%;
       height: 30px;
       border: 2px solid #000;
-      margin-bottom: 0.5rem;
+      margin-bottom: 8px;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -44,13 +76,15 @@
     }
 
     button {
+      width: 100%;
       background-color: #ff7300;
       color: white;
       font-weight: bold;
-      padding: 10px 20px;
+      padding: 12px;
       border: none;
       border-radius: 6px;
-      margin-top: 20px;
+      margin-top: 10px;
+      font-size: 16px;
       cursor: pointer;
     }
 
@@ -58,31 +92,23 @@
       background-color: #e25d00;
     }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
     .back {
-      display: inline-block;
+      display: block;
       margin-top: 20px;
-      color: #333;
+      text-align: center;
       text-decoration: none;
+      color: #333;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 style="color: darkorange; text-align: center;">Cadastrar Aluno</h1>
+    <h1>Cadastrar Aluno</h1>
     <form action="/alunos" method="post">
-      <input type="text" name="nome" placeholder="Nome do aluno" required><br><br>
-      <input type="text" name="professor" placeholder="Professor responsável" required><br><br>
+      <input type="text" name="nome" placeholder="Nome do aluno" required>
+      <input type="text" name="professor" placeholder="Professor responsável" required>
 
-      <label><strong>Graus:</strong></label>
       <div class="grau-container">
         <div class="grau-item">
           <label><input type="checkbox" name="grau1"> Grau 1</label>
@@ -104,6 +130,7 @@
 
       <input type="hidden" name="faixa" id="faixaSelecionada" required>
 
+      <!-- Faixas -->
       <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 70%, black 30%)"></div>
       <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 70%, black 30%)"></div>
       <div onclick="selecionarFaixa('laranja')" class="faixa" style="background: linear-gradient(to right, orange 70%, black 30%)"></div>
@@ -116,9 +143,7 @@
       <button type="submit">Salvar</button>
     </form>
 
-    <div style="margin-top: 1rem;">
-      <a href="/" class="back">← Voltar</a>
-    </div>
+    <a href="/" class="back">← Voltar ao Início</a>
   </div>
 
   <script>
