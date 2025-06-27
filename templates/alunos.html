@@ -8,13 +8,13 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
+      background-color: #f7f7f7;
       margin: 0;
       padding: 20px;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 500px;
       margin: auto;
       background-color: #fff;
       padding: 20px;
@@ -25,42 +25,35 @@
     h1 {
       color: darkorange;
       text-align: center;
-      margin-bottom: 20px;
     }
 
     input[type="text"],
     input[type="date"] {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
+      margin: 6px 0;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
     }
 
-    .grau-container {
+    .grau-row {
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      gap: 10px;
     }
 
-    .grau-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .grau-item label {
+    .grau-row label {
+      flex: 1;
       font-weight: bold;
     }
 
     .faixa {
       width: 100%;
-      height: 40px;
+      height: 30px;
       border: 2px solid #000;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -73,13 +66,13 @@
       background-color: #ff7300;
       color: white;
       font-weight: bold;
-      padding: 12px 20px;
+      padding: 12px;
+      width: 100%;
       border: none;
       border-radius: 6px;
-      margin-top: 20px;
-      cursor: pointer;
-      width: 100%;
       font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
     }
 
     button:hover {
@@ -88,25 +81,10 @@
 
     .back {
       display: block;
-      margin-top: 20px;
       text-align: center;
-      color: #333;
+      margin-top: 1rem;
       text-decoration: none;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 22px;
-      }
-
-      button {
-        font-size: 15px;
-        padding: 10px;
-      }
-
-      .faixa {
-        height: 35px;
-      }
+      color: #555;
     }
   </style>
 </head>
@@ -117,28 +95,25 @@
       <input type="text" name="nome" placeholder="Nome do aluno" required>
       <input type="text" name="professor" placeholder="Professor responsável" required>
 
-      <label><strong>Graus:</strong></label>
-      <div class="grau-container">
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau1"> Grau 1</label>
-          <input type="date" name="data_grau1">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau2"> Grau 2</label>
-          <input type="date" name="data_grau2">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau3"> Grau 3</label>
-          <input type="date" name="data_grau3">
-        </div>
-        <div class="grau-item">
-          <label><input type="checkbox" name="grau4"> Grau 4</label>
-          <input type="date" name="data_grau4">
-        </div>
+      <div class="grau-row">
+        <label><input type="checkbox" name="grau1"> Grau 1</label>
+        <input type="date" name="data_grau1">
+      </div>
+      <div class="grau-row">
+        <label><input type="checkbox" name="grau2"> Grau 2</label>
+        <input type="date" name="data_grau2">
+      </div>
+      <div class="grau-row">
+        <label><input type="checkbox" name="grau3"> Grau 3</label>
+        <input type="date" name="data_grau3">
+      </div>
+      <div class="grau-row">
+        <label><input type="checkbox" name="grau4"> Grau 4</label>
+        <input type="date" name="data_grau4">
       </div>
 
-      <label><strong>Faixa:</strong></label>
       <input type="hidden" name="faixa" id="faixaSelecionada" required>
+      <label style="font-weight: bold; display: block; margin-top: 10px;">Faixas:</label>
 
       <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
       <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
