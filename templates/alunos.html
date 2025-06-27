@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Cadastrar Aluno</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      margin: 0;
+      background-color: #f8f8f8;
       padding: 20px;
     }
 
     .container {
-      max-width: 500px;
+      max-width: 400px;
       margin: auto;
       background-color: #fff;
       padding: 20px;
@@ -23,29 +22,29 @@
     }
 
     h1 {
-      color: darkorange;
       text-align: center;
+      color: darkorange;
+      margin-bottom: 20px;
     }
 
     input[type="text"],
     input[type="date"] {
       width: 100%;
       padding: 10px;
-      margin: 6px 0;
-      border-radius: 5px;
+      margin-bottom: 15px;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
-    .grau-row {
+    .grau-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin: 8px 0;
       gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .grau-row label {
-      flex: 1;
+    label {
       font-weight: bold;
     }
 
@@ -56,6 +55,7 @@
       margin-bottom: 8px;
       cursor: pointer;
       transition: 0.3s;
+      border-radius: 4px;
     }
 
     .faixa:hover {
@@ -63,16 +63,15 @@
     }
 
     button {
+      width: 100%;
       background-color: #ff7300;
       color: white;
       font-weight: bold;
       padding: 12px;
-      width: 100%;
       border: none;
       border-radius: 6px;
-      font-size: 16px;
-      margin-top: 15px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     button:hover {
@@ -82,9 +81,9 @@
     .back {
       display: block;
       text-align: center;
-      margin-top: 1rem;
+      margin-top: 15px;
       text-decoration: none;
-      color: #555;
+      color: #444;
     }
   </style>
 </head>
@@ -95,25 +94,32 @@
       <input type="text" name="nome" placeholder="Nome do aluno" required>
       <input type="text" name="professor" placeholder="Professor responsável" required>
 
-      <div class="grau-row">
-        <label><input type="checkbox" name="grau1"> Grau 1</label>
+      <div class="grau-item">
+        <input type="checkbox" name="grau1">
+        <label>Grau 1</label>
         <input type="date" name="data_grau1">
       </div>
-      <div class="grau-row">
-        <label><input type="checkbox" name="grau2"> Grau 2</label>
+
+      <div class="grau-item">
+        <input type="checkbox" name="grau2">
+        <label>Grau 2</label>
         <input type="date" name="data_grau2">
       </div>
-      <div class="grau-row">
-        <label><input type="checkbox" name="grau3"> Grau 3</label>
+
+      <div class="grau-item">
+        <input type="checkbox" name="grau3">
+        <label>Grau 3</label>
         <input type="date" name="data_grau3">
       </div>
-      <div class="grau-row">
-        <label><input type="checkbox" name="grau4"> Grau 4</label>
+
+      <div class="grau-item">
+        <input type="checkbox" name="grau4">
+        <label>Grau 4</label>
         <input type="date" name="data_grau4">
       </div>
 
+      <label><strong>Faixas:</strong></label>
       <input type="hidden" name="faixa" id="faixaSelecionada" required>
-      <label style="font-weight: bold; display: block; margin-top: 10px;">Faixas:</label>
 
       <div onclick="selecionarFaixa('branca')" class="faixa" style="background: linear-gradient(to right, white 50%, black 50%)"></div>
       <div onclick="selecionarFaixa('amarela')" class="faixa" style="background: linear-gradient(to right, yellow 50%, black 50%)"></div>
@@ -126,7 +132,6 @@
 
       <button type="submit">Salvar</button>
     </form>
-
     <a href="/" class="back">← Voltar ao Início</a>
   </div>
 
